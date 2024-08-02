@@ -1,0 +1,56 @@
+//2:1 multiplexers using 
+
+// Behavioral modeling 
+module mux_2_1(
+  input [1:0]i,
+  input s,
+  output reg y
+);
+
+  always @(i or s)
+    if (s) y = i[1];
+    else y = i[0];
+endmodule
+
+
+// Dataflow modeling 
+module mux_2_1(
+  input [1:0]i,
+  input s,
+  output y
+);
+
+  assign y = (s)?(i[1]):(i[0]);
+
+endmodule
+
+
+//4:1 mux using 
+
+//Dataflow modeling 
+module mux_4_1(
+  input [3:0]I,
+  input [1:0]S,
+  output reg Y
+);
+  always@(I or S)
+  case(S)
+    2'b00 : Y = I[0];
+    2'b01 : Y = I[1];
+    2'b10 : Y = I[2];
+    2'b11 : Y = I[3];
+    default : Y = 1'bx;
+  endcase
+endmodule
+
+
+//Dataflow modeling 
+module mux_4_1(
+  input [3:0]I,
+  input [1:0]S,
+  output Y
+);
+
+assign Y = I[S];
+
+endmodule
