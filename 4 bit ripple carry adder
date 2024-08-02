@@ -1,0 +1,29 @@
+//4 bit ripple carry adder using
+
+// Behavioral modeling
+module fa_4bit(
+  input [3:0]a,b,
+  input cin,
+  output reg [3:0]sum,
+  output reg cout
+);
+
+  always @(a,b,cin)
+  begin
+    sum = a^b^cin;
+    cout = (a&b) | (b&cin) | (cin&a);
+  end
+endmodule
+
+// Dataflow modeling
+
+module fa_4bit(
+  input [3:0]a,b,
+  input cin,
+  output [3:0]s,
+  output cout
+);
+
+assign {cout,s} = a + b + cin;
+
+endmodule
