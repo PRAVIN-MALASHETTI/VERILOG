@@ -1,0 +1,33 @@
+// Encoders using 
+
+// Behavioral modeling
+
+//4:2 Encoder
+module Encoder_4_2(
+  input [3:0]i,
+  input en,
+  output reg [1:0]y
+);
+
+always @(i or en)
+case({en,i})
+5'b1_0001 : y = 2'b00;
+5'b1_0010 : y = 2'b01;
+5'b1_0100 : y = 2'b10;
+5'b1_1000 : y = 2'b11;
+default : y = 2'bx;
+endcase
+endmodule
+
+// Dataflow modeling
+
+//4:2 Encoder
+module Encoder_4_2(
+  input [3:0]i,
+  input en,
+  output reg [1:0]y
+);
+
+assign y = {en & i[3] & i[2],en & i[3] & i[1]};
+
+endmodule
