@@ -1,0 +1,17 @@
+//8-bit barrel shifter (Combination of left or right shifter)
+
+module BARREL_Shifter(
+  output reg [7:0]shifted_data,
+  input [7:0]In, //Input data
+  input LR,  //Left or Right
+  input [2:0]n   //Number of times shifted
+);
+
+always@(In,LR,n)
+begin
+  if(LR) // if LR=1 -> LEFT SHIFT
+    shifted_data = In << n;
+  else   // if LR=0 -> RIGHT SHIFT
+    shifted_data = In >> n;
+end
+endmodule
