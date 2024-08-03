@@ -1,0 +1,26 @@
+// COMPARATOR
+
+// N bit comparator using
+
+// Behavioral modeling
+module COMPARATOR(
+    input [N-1:0] a,b,
+    output reg LT,EQ,GT
+);
+parameter N = 8;
+always@(a,b)
+begin
+      {LT,EQ,GT} = {a<b,a==b,a>b};
+end
+endmodule
+
+
+// Dataflow modeling
+module COMPARATOR(
+    input [N-1:0] a,b,
+    output LT,EQ,GT
+);
+parameter N = 8;
+assign {LT,EQ,GT} = {a<b,a==b,a>b};
+
+endmodule
