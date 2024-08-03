@@ -31,3 +31,39 @@ module Encoder_4_2(
 assign y = {en & i[3] & i[2],en & i[3] & i[1]};
 
 endmodule
+
+//Priority encoders
+
+// 4:2 priority encoder using
+
+// Behavioral modeling
+module p_en(
+    input [3:0]D,
+    output reg [1:0]Y
+);
+  always@(D)
+  begin
+    if(D[3])
+        Y = 2'b11;
+    else if(D[2])
+        Y = 2'b10;
+    else if(D[1])
+        Y = 2'b01;
+    else if(D[0])
+        Y = 2'b00;
+    else
+        Y = 2'bxx;
+  end
+endmodule
+
+
+
+// Dataflow modeling
+module P_en(
+    input [3:0]D,
+    output [1:0]Y
+);
+
+assign Y = D[3]?3:(D[2]?2:(D[1]?1:0));
+
+endmodule
