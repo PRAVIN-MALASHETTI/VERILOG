@@ -1,0 +1,120 @@
+// Active high triggered D latch with Asynchronous active low reset using 
+
+// Behavioral modeling 
+module D_latch(
+    output reg q,
+    input en, rst, d
+);
+
+  always @(en,d,rst)
+    begin
+      if(!rst)
+        q = 0;
+      else
+        if(en)
+        	q = d;
+    end
+
+endmodule
+
+// Dataflow modeling
+module D_latch(
+    output q,
+    input en, rst, d
+);
+
+  assign q = rst?((en)?d:q):(0);
+
+endmodule
+
+
+// Active high triggered D-latch with Synchronous active low reset
+
+// Behavioral modeling 
+module D_latch(
+    output reg q,
+    input en, rst, d
+);
+
+  always @(en,d,rst)
+    begin
+    if(en) begin
+      if(!rst)
+        q = 0;
+      else
+      	q = d;
+      end
+    end
+
+endmodule
+
+// Dataflow modeling
+module D_latch(
+    output q,
+    input en, rst, d
+);
+
+  assign q = en?((!rst)?0:d):(q);
+
+endmodule
+
+
+// Active low triggered D latch with Asynchronous active low reset using 
+
+// Behavioral modeling 
+module D_latch(
+    output reg q,
+    input en, rst, d
+);
+
+  always @(en,d,rst)
+    begin
+      if(!rst)
+        q = 0;
+      else
+        if(!en)
+        	q = d;
+    end
+
+endmodule
+
+// Dataflow modeling
+module D_latch(
+    output q,
+    input en, rst, d
+);
+
+  assign q = rst?((!en)?d:q):(0);
+
+endmodule
+
+
+// Active low triggered D-latch with Synchronous active low reset
+
+// Behavioral modeling 
+module D_latch(
+    output reg q,
+    input en, rst, d
+);
+
+  always @(en,d,rst)
+    begin
+    if(!en) begin
+      if(!rst)
+        q = 0;
+      else
+      	q = d;
+      end
+    end
+
+endmodule
+
+// Dataflow modeling
+module D_latch(
+    output q,
+    input en, rst, d
+);
+
+  assign q = en?(q):((!rst)?0:d);
+
+endmodule
