@@ -1,0 +1,63 @@
+// Positive edge triggered D flipflop with Asynchronous active high reset 
+
+module D_ff(
+    output q,
+    input clk, rst, d
+);
+
+always@(posedge clk or rst)
+begin
+  if(rst)
+    q <= 0;
+  else
+    q <= d;
+end
+endmodule
+
+// Negitive edge triggered D flipflop with Asynchronous active low reset 
+
+module D_ff(
+    output q,
+    input clk, rst, d
+);
+
+always@(negedge clk or rst)
+begin
+  if(!rst)
+    q <= 0;
+  else
+    q <= d;
+end
+endmodule
+
+// Positive edge triggered D flipflop with Synchronous active high reset 
+
+module D_ff(
+    output q,
+    input clk, rst, d
+);
+
+always@(posedge clk)
+begin
+  if(rst)
+    q <= 0;
+  else
+    q <= d;
+end
+endmodule
+
+// Negitive edge triggered D flipflop with Synchronous active low reset 
+
+module D_ff(
+    output q,
+    input clk, rst, d
+);
+
+always@(negedge clk or rst)
+begin
+  if(!rst)
+    q <= 0;
+  else
+    q <= d;
+end
+endmodule
