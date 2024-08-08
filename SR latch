@@ -1,0 +1,144 @@
+// Active high triggered SR latch with Asynchoronous active high reset using
+
+// Behavioral modeling
+module SR_latch(
+  output reg q,
+  input S,R, clk,rst
+);
+
+always @(clk,rst,q,S,R)
+begin
+  if(rst)
+    q <= 0;
+  else if(clk)
+    begin
+      case({S,R})
+        2'b00 : q <= q;
+        2'b01 : q <= 0;
+        2'b10 : q <= 1;
+        default : q <= 1'bx;
+      endcase
+    end
+end
+endmodule
+
+// Dataflow modeling
+module SR_latch(
+  output reg q,
+  input S,R, clk,rst
+);
+
+  assign q = (rst) ? 0 : (clk ? (S?(R ? 1'bx : 1):(R ? 0 : q)) : q);
+  
+endmodule
+
+// Active low triggered SR latch with Asynchoronous active low reset using
+
+// Behavioral modeling
+module SR_latch(
+  output reg q,
+  input S,R, clk,rst
+);
+
+always @(clk,rst,q,S,R)
+begin
+  if(!rst)
+    q <= 0;
+  else if(!clk)
+    begin
+      case({S,R})
+        2'b00 : q <= q;
+        2'b01 : q <= 0;
+        2'b10 : q <= 1;
+        default : q <= 1'bx;
+      endcase
+    end
+end
+endmodule
+
+// Dataflow modeling
+module SR_latch(
+  output reg q,
+  input S,R, clk,rst
+);
+
+  assign q = (!rst) ? 0 : (!clk ? (S?(R ? 1'bx : 1):(R ? 0 : q)) : q);
+  
+endmodule
+
+
+
+// Active low triggered SR latch with Synchoronous active high reset using
+
+// Behavioral modeling
+module SR_latch(
+  output reg q,
+  input S,R, clk,rst
+);
+
+always @(clk,rst,q,S,R)
+begin
+  if(!clk) 
+    begin
+      if(rst)
+        q <= 0;
+      else
+        begin
+          case({S,R})
+            2'b00 : q <= q;
+            2'b01 : q <= 0;
+            2'b10 : q <= 1;
+            default : q <= 1'bx;
+          endcase
+        end
+    end
+end
+endmodule
+
+// Dataflow modeling
+module SR_latch(
+  output reg q,
+  input S,R, clk,rst
+);
+
+  assign q = (!clk) ? (rst ? 0:(S?(R ? 1'bx : 1):(R ? 0 : q))) : (q);
+  
+endmodule
+
+
+// Active low triggered SR latch with Synchoronous active low reset using
+
+// Behavioral modeling
+module SR_latch(
+  output reg q,
+  input S,R, clk,rst
+);
+
+always @(clk,rst,q,S,R)
+begin
+  if(!clk) 
+    begin
+      if(!rst)
+        q <= 0;
+      else
+        begin
+          case({S,R})
+            2'b00 : q <= q;
+            2'b01 : q <= 0;
+            2'b10 : q <= 1;
+            default : q <= 1'bx;
+          endcase
+        end
+    end
+end
+endmodule
+
+// Dataflow modeling
+module SR_latch(
+  output reg q,
+  input S,R, clk,rst
+);
+
+  assign q = (!clk) ? ((!rst)?0:(S?(R ? 1'bx : 1):(R ? 0 : q))) : (q);
+  
+endmodule
