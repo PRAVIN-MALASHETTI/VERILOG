@@ -1,0 +1,13 @@
+module 5bit_shift_register(
+  output reg [4:0] Sout,
+  input Sin, clk, rst
+);
+
+always @(posedge clk)
+begin
+  if(!rst)
+    Sout <= 0;
+  else
+    Sout <= {Sout[3:0], Sin};
+end
+endmodule
