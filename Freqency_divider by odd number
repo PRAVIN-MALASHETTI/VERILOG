@@ -1,0 +1,51 @@
+// Freqency Divider by odd number (N) 
+// where N = 3,5,7,9.....
+
+module FD_N #(parameter N = 9) (
+    output reg freq_div,
+    input clk, rst
+);
+
+   int count;
+  
+  always @(posedge clk or negedge clk)
+  begin
+    if(!rst)
+      begin
+      	freq_div <= 0;
+      	count <= 0;
+      end
+    else
+      begin
+        count <= count + 1;
+        if(count>=N-1)
+          begin
+            freq_div <= ~freq_div;
+            count <= 0;
+          end
+      end
+  end
+endmodule
+
+module tb;
+  wire freq_div;
+  reg clk, rst;
+  
+  FD_N DUT(freq_div, clk, rst);
+  
+  initial begin
+    
+    clk=1;
+    rst=0;
+    #6 rst=1;
+    #500 $finish;
+  end
+  
+  always #5 clk = ~clk;
+  
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars(0,clk,rst,freq_div,DUT.count);
+  end
+  
+endmodule
