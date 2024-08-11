@@ -1,0 +1,136 @@
+// Frequency Divider by 2
+
+module FD_2(
+    output reg frq_div2,
+    input clk, rst
+);
+
+  always @(posedge clk)
+     if(!rst)
+       frq_div2 <= 0;
+     else
+       frq_div2 <= ~frq_div2;
+       
+endmodule
+
+module tb;
+  wire frq_div2;
+  reg clk, rst;
+  
+  FD_2 DUT(frq_div2, clk, rst);
+  
+  initial begin
+    clk=1;
+    rst=0;
+    #6 rst=1;
+    #50 $finish;
+  end
+  
+  always #5 clk = ~clk;
+  
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars(0,clk,rst,frq_div2);
+  end
+  
+endmodule
+
+// Freqency Divider by 3
+
+module FD_3(
+    output reg freq_div3,
+    input clk, rst
+);
+
+  reg [1:0] count;
+  
+  always @(posedge clk or negedge clk)
+  begin
+    if(!rst)
+      begin
+      	freq_div3 <= 0;
+      	count <= 0;
+      end
+    else
+      begin
+        count <= count + 1;
+        if(count>=2)
+          begin
+            freq_div3 <= ~freq_div3;
+            count <= 0;
+          end
+      end
+  end
+endmodule
+
+module tb;
+  wire freq_div3;
+  reg clk, rst;
+  
+  FD_3 DUT(freq_div3, clk, rst);
+  
+  initial begin
+    clk=1;
+    rst=0;
+    #6 rst=1;
+    #100 $finish;
+  end
+  
+  always #5 clk = ~clk;
+  
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars();
+  end
+  
+endmodule
+
+// Freqency Divider by 4
+
+module FD_4(
+    output reg freq_div4,
+    input clk, rst
+);
+
+  reg counter;
+
+  always @(posedge clk)
+    begin
+      if(!rst)
+        begin
+        	counter = 0;
+        	freq_div4 <= 0;
+        end
+      else 
+        begin
+          counter <= counter + 1;
+          if(counter == 1) begin
+          		freq_div4 <= ~freq_div4;
+            	counter <= 0;
+          end
+        end
+    end
+
+endmodule
+
+module tb;
+  wire freq_div4;
+  reg clk, rst;
+  
+  FD_4 DUT(freq_div4, clk, rst);
+  
+  initial begin
+    clk=1;
+    rst=0;
+    #6 rst=1;
+    #100 $finish;
+  end
+  
+  always #5 clk = ~clk;
+  
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars();
+  end
+  
+endmodule
