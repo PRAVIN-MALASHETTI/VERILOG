@@ -14,5 +14,203 @@ module counter(
   
 endmodule
 
+module tb;
+  
+  wire [3:0] count;
+  reg clk, rst;
+  
+  counter dut(count,clk,rst);
+  
+  initial begin
+    clk=0;
+    rst=0;
+    #6 rst=1;
+    #165 $finish;
+  end
+  
+  always #5 clk = ~clk;
+  
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars(0,clk,rst,count);
+  end
+  
+endmodule
 
-// 
+
+// Counter up load design and testbench
+
+module counter_up_load(
+    output reg [7:0]count,
+    input clk, rst, load,
+    input [7:0] count_value
+);
+
+always @(posedge clk)
+begin
+  if(!rst)
+    count <= 8'd0;
+  else if(load)
+    count <= count_value;
+  else
+    count <= count + 1;
+end
+
+endmodule
+
+module tb;
+  
+  wire [7:0] count;
+  reg clk, rst;
+  reg load;
+  reg [7:0]count_value;
+  
+  counter_up_load dut(count,clk,rst,load,count_value);
+  
+  initial begin
+    count_value = 4;
+    clk=0;
+    rst=0;
+    #6 rst=1;
+    #250 load = 1;
+    #10 load = 0;
+    #500 $finish;
+  end
+  
+  always #5 clk = ~clk;
+  
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars(0,clk,rst,count,load);
+  end
+  
+endmodule
+
+// Up/Down counter with load design and test bench
+
+module up_down_counter_with_load(
+  output reg [7:0] count,
+  input clk,rst, load, up_down,
+  input [7:0] count_value
+);
+
+always @(posedge clk)
+begin
+  if(!rst)
+    count <= 8'd0;
+  else if(load)
+    count <= count_value;
+  else if(up_down) 
+    count <= count + 1;  // up count
+  else
+    count <= count - 1;  // down count
+end
+endmodule
+
+module tb;
+  
+  wire [7:0] count;
+  reg clk, rst;
+  reg load,up_down;
+  reg [7:0]count_value;
+  
+  up_down_counter_with_load dut(count,clk,rst,load,up_down,count_value);
+  
+  initial begin
+    count_value = 4;
+    up_down = 1;
+    clk=0;
+    rst=0;
+    #6 rst=1;
+    #100 up_down = 0;
+    #200 up_down = 1;
+    #100 $finish;
+  end
+  
+  always #5 clk = ~clk;
+  
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars(0,clk,rst,count);
+  end
+  
+endmodule
+
+// mod-47 up counter design and test bench
+
+module mod_47_up_counter(
+  output reg [6:0] count,
+  input clk, rst
+);
+
+always @(posedge clk or rst)
+begin
+  if(!rst || count == 7'd47)
+    count <= 7'd0;
+  else 
+    count <= count + 1;
+end
+
+endmodule
+
+module tb;
+  
+  wire [6:0] count;
+  reg clk, rst;
+  
+  mod_47_up_counter dut(count,clk,rst);
+  
+  initial begin
+    clk=0;
+    rst=0;
+    #6 rst=1;
+    #500 $finish;
+  end
+  
+  always #5 clk = ~clk;
+  
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars(0,clk,rst,count);
+  end
+  
+endmodule
+
+// counter_10_to_40 design and testbench
+module counter_10_to_40(
+  output reg [6:0]count,
+  input clk,rst
+);
+  
+  always@(posedge clk)
+    begin
+      if(!rst || 10<count>=40)
+        count <= 10;
+      else 
+        count <= count + 1;
+    end
+  
+endmodule
+
+module tb;
+  
+  wire [6:0] count;
+  reg clk, rst;
+  
+  counter_10_to_40 dut(count,clk,rst);
+  
+  initial begin
+    clk=0;
+    rst=0;
+    #6 rst=1;
+    #300 $finish;
+  end
+  
+  always #5 clk = ~clk;
+  
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars(0,clk,rst,count);
+  end
+  
+endmodule
